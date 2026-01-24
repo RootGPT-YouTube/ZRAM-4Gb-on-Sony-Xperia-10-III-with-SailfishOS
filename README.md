@@ -1,8 +1,8 @@
 # Ottimizzazione di ZRAM (4Gb+Swappiness=20) su Sony Xperia 10 III con SailfishOS.
 
-Obiettivo: ottimizzare ZRAM su Sailfish OS con script personalizzato e servizio systemd.
+Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
 
-Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.   È stata testata su Sony Xperia 10 III con Sailfish OS.  
+Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.   È stata testata su Sony Xperia 10 III con SailfishOS.  
 
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
 Creiamo lo script in /usr/local/sbin/:  
@@ -46,7 +46,7 @@ Contenuto:
 
 Perché il ritardo di 10 secondi?
 
-Sailfish OS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
+SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
 
 Attivazione del servizio:  
 `sudo systemctl daemon-reload`  
