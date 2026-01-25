@@ -60,6 +60,10 @@ Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'acce
 
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 
+BETA: SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO 4GB DI RAM:
+`devel-su`
+`curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
+
 # [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
 Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
 
@@ -124,3 +128,7 @@ Now, check swappiness (should be 20):
 `cat /proc/sys/vm/swappiness`  
   
 Done. Your smartphone now has more ZRAM available — and uses it more efficiently.
+
+BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:
+`devel-su`
+`curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
