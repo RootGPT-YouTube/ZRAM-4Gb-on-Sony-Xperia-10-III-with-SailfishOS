@@ -2,11 +2,13 @@
 
 Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
 
-Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.   È stata testata su Sony Xperia 10 III con SailfishOS.  
+Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.  
+È stata testata su Sony Xperia 10 III con SailfishOS.  
 
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
 Creiamo lo script in /usr/local/sbin/:  
-`sudo nano /usr/local/sbin/zram4`
+`devel-su`  
+`nano /usr/local/sbin/zram4`  
 
 Contenuto consigliato:  
 `#!/bin/sh`  
@@ -26,10 +28,10 @@ Contenuto consigliato:
 `sysctl -w vm.swappiness=20`  
 
 Rendi lo script eseguibile:  
-`sudo chmod +x /usr/local/sbin/zram4`
+`chmod +x /usr/local/sbin/zram4`
 
 Creiamo il file del servizio:  
-`sudo nano /etc/systemd/system/zram-override.service`
+`nano /etc/systemd/system/zram-override.service`
 
 Contenuto:  
 `[Unit]`  
@@ -49,11 +51,76 @@ Perché il ritardo di 10 secondi?
 SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
 
 Attivazione del servizio:  
-`sudo systemctl daemon-reload`  
-`sudo systemctl enable zram-override.service`  
-`sudo systemctl start zram-override.service`  
+`systemctl daemon-reload`  
+`systemctl enable zram-override.service`  
+`systemctl start zram-override.service`
 
 Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'accesso e digitare:
 `swapon --show` o `zramctl` per verificare la presenza di ZRAM attivo con la giusta quantità di memoria (nel nostro caso 4Gb) e `cat /proc/sys/vm/swappiness` per verificare il corretto swappiness (nel nostro caso 20).
 
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
+
+# [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
+Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
+
+This guide explains how to create a script that reconfigures ZRAM (size, compression algorithm, swap priority) and how to automate it through a systemd service.
+It has been tested on the Sony Xperia 10 III running SailfishOS.
+
+Create the ZRAM script (4 GB ZRAM)
+We will create a script that sets up 4 GB of ZRAM, so we’ll call it zram4.
+
+Create the script in /usr/local/sbin/:  
+`devel-su`  
+`nano /usr/local/sbin/zram4`  
+
+Recommended content:  
+`#!/bin/sh`  
+`# Disable current swap`  
+`swapoff /dev/zram0 2>/dev/null`  
+`# Reset the ZRAM device`  
+`echo 1 > /sys/block/zram0/reset`  
+`# Set compression algorithm (not critical)`  
+`echo lz4 > /sys/block/zram0/comp_algorithm`  
+`# Set ZRAM size (4 GB)`  
+`echo 4294967296 > /sys/block/zram0/disksize`  
+`# Recreate swap`  
+`mkswap /dev/zram0`  
+`# Enable swap with priority 5`  
+`swapon /dev/zram0 -p 5`  
+`# Set final swappiness`  
+`sysctl -w vm.swappiness=20`  
+
+Make the script executable:  
+`chmod +x /usr/local/sbin/zram4`  
+
+Create the systemd service:  
+`nano /etc/systemd/system/zram-override.service`  
+
+Content:  
+`[Unit]`  
+`Description=Override ZRAM parameters after boot`  
+`After=multi-user.target`  
+  
+`[Service]`  
+`Type=oneshot`  
+`ExecStartPre=/usr/bin/sleep 10`  
+`ExecStart=/usr/local/sbin/zram4`  
+  
+`[Install]`  
+`WantedBy=multi-user.target`  
+
+Why the 10‑second delay?
+SailfishOS and the Android layer (droid-hal) initialize ZRAM very early during boot.
+The delay ensures that our script overrides the final values, avoiding conflicts.
+
+Enable the service:  
+`systemctl daemon-reload`  
+`systemctl enable zram-override.service`  
+`systemctl start zram-override.service`  
+  
+After rebooting the phone, wait at least 10 seconds after logging in, then run: `swapon --show` or `zramctl`. So you can check active ZRAM and size (4 GB in this example).
+  
+Now, check swappiness (should be 20):  
+`cat /proc/sys/vm/swappiness`  
+  
+Done. Your smartphone now has more ZRAM available — and uses it more efficiently.
