@@ -25,5 +25,5 @@ echo "[*] Starting service: need 3 minute..."
 systemctl start zram-override.service
 
 echo "[✓] Installation complete and service started."
-echo "You can now check status with: systemctl status zram-override.service"
+echo "You can now check status with: systemctl status zram-override.service, swapon --show, cat /proc/sys/vm/swappiness"
 echo "Anyway, reboot is recommended."
