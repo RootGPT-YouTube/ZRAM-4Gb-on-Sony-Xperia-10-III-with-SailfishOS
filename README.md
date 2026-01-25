@@ -1,4 +1,4 @@
-#[ITALIANO] Ottimizzazione di ZRAM (4Gb+Swappiness=20) su Sony Xperia 10 III con SailfishOS.
+# [ITALIANO] Ottimizzazione di ZRAM (4Gb+Swappiness=20) su Sony Xperia 10 III con SailfishOS.
 
 Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
 
