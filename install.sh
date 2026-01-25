@@ -21,7 +21,7 @@ echo "[*] Enabling service..."
 systemctl enable zram-override.service
 
 # Avvia il servizio subito
-echo "[*] Starting service: need 3 minute..."
+echo "[*] Starting service: need max 3 minute..."
 systemctl start zram-override.service
 
 echo "[✓] Installation complete and service started."
