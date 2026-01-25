@@ -1,0 +1,11 @@
+[Unit]
+Description=Override ZRAM parameters after boot
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 10
+ExecStart=/usr/local/sbin/zram4
+
+[Install]
+WantedBy=multi-user.target
