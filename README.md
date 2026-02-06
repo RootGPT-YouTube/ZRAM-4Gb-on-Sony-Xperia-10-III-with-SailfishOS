@@ -198,3 +198,68 @@ Done. Your smartphone now has more ZRAM available — and uses it more efficient
 BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:  
 `devel-su`  
 `curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
+
+# EXTRA: add a SWAPFILE with lower priority than ZRAM.
+
+## Create a 1024 MB swapfile
+Become root:
+
+```bash
+devel-su
+```
+
+Create a 1 GB file:
+
+```bash
+fallocate -l 1024M /swapfile
+```
+
+Set the correct permissions:
+
+```bash
+chmod 600 /swapfile
+```
+
+Format the file as swap:
+
+```bash
+mkswap /swapfile
+```
+
+Activate it:
+
+```bash
+swapon /swapfile
+```
+
+## Set the priority to -2
+
+Swap priority is set with:
+
+```bash
+swapon --priority -2 /swapfile
+```
+
+You can verify it with:
+
+```bash
+swapon --show
+```
+
+You will see a column called PRIO.
+
+## Make it permanent (fstab)
+
+Open /etc/fstab:
+
+```bash
+nano /etc/fstab
+```
+
+Add this line:
+
+```
+/swapfile none swap sw,pri=-2 0 0
+```
+
+Save and exit.
