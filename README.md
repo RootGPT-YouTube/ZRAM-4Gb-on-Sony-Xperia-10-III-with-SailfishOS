@@ -65,61 +65,69 @@ Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 `curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
   
 # EXTRA: aggiungere uno SWAPFILE con priorità inferiore a ZRAM.  
+
 ## Creare uno swapfile da 1024 MB  
 Entra come root:
 
 ```bash
-devel-su```
+devel-su
+```
 
 Crea il file da 1 GB:
 
 ```bash
-fallocate -l 1024M /swapfile```
+fallocate -l 1024M /swapfile
+```
 
 Imposta i permessi corretti:
 
 ```bash
-chmod 600 /swapfile```
+chmod 600 /swapfile
+```
 
 Formatta il file come swap:
 
 ```bash
-mkswap /swapfile```
+mkswap /swapfile
+```
 
 Attivalo:
 
 ```bash
-swapon /swapfile```
+swapon /swapfile
+```
 
 ## Impostare la priorità a -2
 
 La priorità dello swap si imposta con:
 
 ```bash
-swapon --priority -2 /swapfile```
+swapon --priority -2 /swapfile
+```
 
 Puoi verificare:
 
 ```bash
-swapon --show```
+swapon --show
+```
 
 Vedrai una colonna chiamata PRIO.
-
 
 ## Renderlo permanente (fstab)
 
 Apri /etc/fstab:
 
 ```bash
-nano /etc/fstab```
+nano /etc/fstab
+```
 
 Aggiungi questa riga:
 
 ```
-/swapfile none swap sw,pri=-2 0 0```
+/swapfile none swap sw,pri=-2 0 0
+```
 
 Salva e chiudi.
-
 
 # [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
 
