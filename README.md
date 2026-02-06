@@ -1,8 +1,8 @@
 # [ITALIANO] Ottimizzazione di ZRAM (4Gb+Swappiness=20) su Sony Xperia 10 III con SailfishOS.
 
-Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
+## Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
 
-Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.  
+### Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.  
 È stata testata su Sony Xperia 10 III con SailfishOS.  
 
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
@@ -60,14 +60,80 @@ Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'acce
 
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 
-BETA: SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO 4GB DI RAM:  
+### SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO 4GB DI RAM:  
 `devel-su`  
-`curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`  
+`curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
+  
+# EXTRA: aggiungere uno SWAPFILE con priorità inferiore a ZRAM.  
+## Creare uno swapfile da 1024 MB  
+Entra come root:
+
+```bash
+devel-su
+```
+Crea il file da 1 GB:
+
+````bash
+fallocate -l 1024M /swapfile
+```
+
+Imposta i permessi corretti:
+
+```bash
+chmod 600 /swapfile
+```
+
+Formatta il file come swap:
+
+```bash
+mkswap /swapfile
+```
+
+Attivalo:
+
+```bash
+swapon /swapfile
+```
+
+## Impostare la priorità a -2
+
+La priorità dello swap si imposta con:
+
+```bash
+swapon --priority -2 /swapfile
+```
+
+Puoi verificare:
+
+```bash
+swapon --show
+```
+
+Vedrai una colonna chiamata PRIO.
+
+
+## Renderlo permanente (fstab)
+
+Apri /etc/fstab:
+
+```bash
+nano /etc/fstab
+```
+
+Aggiungi questa riga:
+
+```
+/swapfile none swap sw,pri=-2 0 0
+```
+
+Salva e chiudi.
+
 
 # [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
-Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
 
-This guide explains how to create a script that reconfigures ZRAM (size, compression algorithm, swap priority) and how to automate it through a systemd service.
+##Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
+
+###This guide explains how to create a script that reconfigures ZRAM (size, compression algorithm, swap priority) and how to automate it through a systemd service.
 It has been tested on the Sony Xperia 10 III running SailfishOS.
 
 Create the ZRAM script (4 GB ZRAM)
