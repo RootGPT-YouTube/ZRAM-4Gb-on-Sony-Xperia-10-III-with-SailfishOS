@@ -70,6 +70,7 @@ Entra come root:
 
 ```bash
 devel-su```
+
 Crea il file da 1 GB:
 
 ```bash
