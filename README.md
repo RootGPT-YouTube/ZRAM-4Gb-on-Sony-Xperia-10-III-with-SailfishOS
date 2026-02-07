@@ -156,7 +156,7 @@ Salva e chiudi.
 - zram comprime la RAM e la usa come “RAM aggiuntiva veloce”, ottima per evitare rallentamenti.  
 - lo swapfile entra in gioco solo quando serve davvero, offrendo spazio di emergenza che evita crash, OOM‑killer e chiusure forzate delle app.  
   
-### In sintesi
+### In sintesi (molto semplificato)
 zram = velocità.  
 swapfile = sicurezza e stabilità.  
 
