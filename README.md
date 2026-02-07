@@ -14,7 +14,7 @@ devel-su
 
 poi:
 ```bash
-nano /usr/local/sbin/zram4`  
+nano /usr/local/sbin/zram4
 ```
 
 Contenuto consigliato:  
