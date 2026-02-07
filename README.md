@@ -7,7 +7,10 @@
 
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
 Creiamo lo script in /usr/local/sbin/:  
-`devel-su`  
+Entra come root:
+```bash
+devel-su```
+
 poi:
 ```bash
 nano /usr/local/sbin/zram4`  
@@ -74,7 +77,9 @@ Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'acce
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 
 ### SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO 4GB DI RAM:  
-`devel-su`  
+Entra come root:
+```bash
+devel-su```
 poi:
 ```bash
 curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash
