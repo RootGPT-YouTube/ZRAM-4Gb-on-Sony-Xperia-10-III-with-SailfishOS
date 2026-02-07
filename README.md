@@ -316,3 +316,14 @@ Add this line:
 ```
 
 Save and exit.
+
+## Why it’s useful to have both zram and a swapfile?
+
+- zram compresses RAM and acts as “fast extra memory,” which helps prevent slowdowns.  
+- the swapfile kicks in only when really needed, providing emergency space that prevents crashes, the OOM‑killer, and forced app closures.  
+
+### In a very simplified way
+zram = speed.  
+swapfile = safety and stability.  
+  
+They work together: zram handles light and fast memory pressure, while the swapfile protects the system when RAM is completely full.
