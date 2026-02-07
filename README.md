@@ -163,64 +163,83 @@ Create the ZRAM script (4 GB ZRAM)
 We will create a script that sets up 4 GB of ZRAM, so we’ll call it zram4.
 
 Create the script in /usr/local/sbin/:  
-`devel-su`  
-`nano /usr/local/sbin/zram4`  
+Take the root access:
+```bash
+devel-su
+```
+Then:
+```bash
+nano /usr/local/sbin/zram4
+```
 
-Recommended content:  
-`#!/bin/sh`  
-`# Disable current swap`  
-`swapoff /dev/zram0 2>/dev/null`  
-`# Reset the ZRAM device`  
-`echo 1 > /sys/block/zram0/reset`  
-`# Set compression algorithm (not critical)`  
-`echo lz4 > /sys/block/zram0/comp_algorithm`  
-`# Set ZRAM size (4 GB)`  
-`echo 4294967296 > /sys/block/zram0/disksize`  
-`# Recreate swap`  
-`mkswap /dev/zram0`  
-`# Enable swap with priority 5`  
-`swapon /dev/zram0 -p 5`  
-`# Set final swappiness`  
-`sysctl -w vm.swappiness=20`  
-
+Recommended content:
+```bash
+#!/bin/sh
+# Disable current swap
+swapoff /dev/zram0 2>/dev/null
+# Reset the ZRAM device
+echo 1 > /sys/block/zram0/reset
+# Set compression algorithm (not critical)
+echo lz4 > /sys/block/zram0/comp_algorithm
+# Set ZRAM size (4 GB)
+echo 4294967296 > /sys/block/zram0/disksize
+# Recreate swap
+mkswap /dev/zram0
+# Enable swap with priority 5
+swapon /dev/zram0 -p 5
+# Set final swappiness
+sysctl -w vm.swappiness=20
+```
 Make the script executable:  
-`chmod +x /usr/local/sbin/zram4`  
-
+```bash
+chmod +x /usr/local/sbin/zram4
+```
 Create the systemd service:  
-`nano /etc/systemd/system/zram-override.service`  
+```bash
+nano /etc/systemd/system/zram-override.service
+```
 
 Content:  
-`[Unit]`  
-`Description=Override ZRAM parameters after boot`  
-`After=multi-user.target`  
+```bash
+[Unit]
+Description=Override ZRAM parameters after boot
+After=multi-user.target
   
-`[Service]`  
-`Type=oneshot`  
-`ExecStartPre=/usr/bin/sleep 10`  
-`ExecStart=/usr/local/sbin/zram4`  
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sleep 10
+ExecStart=/usr/local/sbin/zram4
   
-`[Install]`  
-`WantedBy=multi-user.target`  
-
+[Install]
+WantedBy=multi-user.target
+```
 Why the 10‑second delay?
 SailfishOS and the Android layer (droid-hal) initialize ZRAM very early during boot.
 The delay ensures that our script overrides the final values, avoiding conflicts.
 
 Enable the service:  
-`systemctl daemon-reload`  
-`systemctl enable zram-override.service`  
-`systemctl start zram-override.service`  
-  
+```bash
+systemctl daemon-reload
+systemctl enable zram-override.service
+systemctl start zram-override.service
+```
 After rebooting the phone, wait at least 10 seconds after logging in, then run: `swapon --show` or `zramctl`. So you can check active ZRAM and size (4 GB in this example).
   
 Now, check swappiness (should be 20):  
-`cat /proc/sys/vm/swappiness`  
+```bash
+cat /proc/sys/vm/swappiness
+```
   
 Done. Your smartphone now has more ZRAM available — and uses it more efficiently.
 
-BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:  
-`devel-su`  
-`curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash`
+BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:
+Take root access:
+```bash
+devel-su
+```
+Then:
+```bash
+curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash```
 
 # EXTRA: add a SWAPFILE with lower priority than ZRAM.
 
