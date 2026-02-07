@@ -152,6 +152,16 @@ Aggiungi questa riga:
 
 Salva e chiudi.
 
+## Perché è utile avere sia zram che uno swapfile?  
+- zram comprime la RAM e la usa come “RAM aggiuntiva veloce”, ottima per evitare rallentamenti.  
+- lo swapfile entra in gioco solo quando serve davvero, offrendo spazio di emergenza che evita crash, OOM‑killer e chiusure forzate delle app.  
+  
+### In sintesi
+zram = velocità.  
+swapfile = sicurezza e stabilità.  
+
+Lavorano insieme: zram gestisce il carico leggero e veloce, lo swapfile protegge il sistema quando la RAM è completamente piena.  
+
 # [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
 
 ## Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
