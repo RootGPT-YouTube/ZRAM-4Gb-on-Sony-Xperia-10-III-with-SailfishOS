@@ -154,9 +154,9 @@ Salva e chiudi.
 
 # [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
 
-##Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
+## Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
 
-###This guide explains how to create a script that reconfigures ZRAM (size, compression algorithm, swap priority) and how to automate it through a systemd service.
+### This guide explains how to create a script that reconfigures ZRAM (size, compression algorithm, swap priority) and how to automate it through a systemd service.
 It has been tested on the Sony Xperia 10 III running SailfishOS.
 
 Create the ZRAM script (4 GB ZRAM)
