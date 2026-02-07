@@ -232,14 +232,15 @@ cat /proc/sys/vm/swappiness
   
 Done. Your smartphone now has more ZRAM available — and uses it more efficiently.
 
-BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:
+BETA: ONLY FOR SAILFISHOS WITH AT LEAST 4GB OF RAM:  
 Take root access:
 ```bash
 devel-su
 ```
 Then:
 ```bash
-curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash```
+curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-on-Sony-Xperia-10-III-with-SailfishOS/main/install.sh | bash
+```
 
 # EXTRA: add a SWAPFILE with lower priority than ZRAM.
 
