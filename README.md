@@ -8,7 +8,7 @@
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
 Creiamo lo script in /usr/local/sbin/:  
 `devel-su`  
-Poi:
+poi:
 ```bash
 nano /usr/local/sbin/zram4`  
 ```
