@@ -147,7 +147,7 @@ nano /etc/fstab
 Aggiungi questa riga:
 
 ```
-/swapfile none swap sw,pri=-2 0 0
+/swapfile none swap sw,nofail,pri=-2 0 0
 ```
 
 Salva e chiudi.
@@ -312,7 +312,7 @@ nano /etc/fstab
 Add this line:
 
 ```
-/swapfile none swap sw,pri=-2 0 0
+/swapfile none swap sw,nofail,pri=-2 0 0
 ```
 
 Save and exit.
