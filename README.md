@@ -76,7 +76,7 @@ Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'acce
 `swapon --show` o `zramctl` per verificare la presenza di ZRAM attivo con la giusta quantità di memoria (nel nostro caso 4Gb) e `cat /proc/sys/vm/swappiness` per verificare il corretto swappiness (nel nostro caso 20).  
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 
-### AUTOINSTALLAZIONE MODULO DI 4GB DI ZRAM SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO ALTRETTANTI GB DI RAM:  
+### IL MODO FACILE: AUTOINSTALLAZIONE MODULO DI 4GB DI ZRAM SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO ALTRETTANTI GB DI RAM:  
 Entra come root:
 ```bash
 devel-su
