@@ -210,7 +210,7 @@ Si può controllare se è andato tutto a buon fine digitando:
 swapon --show
 ```
 Sotto, un esempio di `swapon --show` con procedura effettuata correttamente.
-![Metodo 2](images/swapon_Jolla_C2.jpeg)
+![Metodo 2](images/swapon_Jolla_C2_cut.jpeg)
 
 ## Perché è utile avere sia zram che uno swapfile?  
 - zram comprime la RAM e la usa come “RAM aggiuntiva veloce”, ottima per evitare rallentamenti.  
@@ -436,7 +436,7 @@ swapon --show
 ```
 
 Below is an example of `swapon --show` after the procedure has been successfully completed.
-![Metodo 2](images/swapon_Jolla_C2.jpeg)
+![Metodo 2](images/swapon_Jolla_C2_cut.jpeg)
 
 ## Why it’s useful to have both zram and a swapfile?
 
