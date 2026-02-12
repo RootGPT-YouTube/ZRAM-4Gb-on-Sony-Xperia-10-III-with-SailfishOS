@@ -131,6 +131,7 @@ Aggiungi questa riga:
 ```
 Salva e chiudi.  
 
+Sotto, un esempio di `swapon --show` con procedura effettuata correttamente.
 ![Metodo 1](images/swapon_Sony_Xperia_10III.jpeg)
 
 ## Metodo 2 [MILLE GRAZIE A NEPHROS] (testato su Jolla C2): Creazione swapfile in /home/swap/  
@@ -208,6 +209,9 @@ Si può controllare se è andato tutto a buon fine digitando:
 ```bash
 swapon --show
 ```
+Sotto, un esempio di `swapon --show` con procedura effettuata correttamente.
+![Metodo 2](images/swapon_Jolla_C2.jpeg)
+
 ## Perché è utile avere sia zram che uno swapfile?  
 - zram comprime la RAM e la usa come “RAM aggiuntiva veloce”, ottima per evitare rallentamenti.  
 - lo swapfile entra in gioco solo quando serve davvero, offrendo spazio di emergenza che evita crash, OOM‑killer e chiusure forzate delle app.  
@@ -350,7 +354,10 @@ Add this line:
 ```bash
 /swapfile none swap sw,nofail,pri=-2 0 0
 ```
-Save and exit.
+Save and exit.  
+
+Below is an example of `swapon --show` after the procedure has been successfully completed.
+![Metodo 1](images/swapon_Sony_Xperia_10III.jpeg)
 
 ## Method 2 [VERY THANKS TO NEPHROS] (tested on Jolla C2): Creating a swapfile in /home/swap/  
 First, we create the swapfile in `/home/swap` and name it `swap0`.
@@ -427,6 +434,9 @@ You can check whether everything worked correctly by typing:
 ```bash
 swapon --show
 ```
+
+Below is an example of `swapon --show` after the procedure has been successfully completed.
+![Metodo 2](images/swapon_Jolla_C2.jpeg)
 
 ## Why it’s useful to have both zram and a swapfile?
 
