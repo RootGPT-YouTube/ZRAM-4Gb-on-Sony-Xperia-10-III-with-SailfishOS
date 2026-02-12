@@ -70,11 +70,11 @@ Ricaricare il demone:
 ```bash
 systemctl daemon-reload
 ```
-Avvia il servizio:
+Avviare il servizio:
 ```bash
 systemctl start zram-override.service
 ```
-Abilita il servizio
+Abilitare il servizio
 ```bash
 systemctl enable zram-override.service
 ```
@@ -98,66 +98,48 @@ curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-
 
 ## Metodo 1 (testato su Sony Xperia 10 III: Creazione swapfile da 1024MB in /  
 Entra come root:
-
 ```bash
 devel-su
 ```
-
 Crea il file da 1 GB:
-
 ```bash
 fallocate -l 1024M /swapfile
 ```
-
 Imposta i permessi corretti:
-
 ```bash
 chmod 600 /swapfile
 ```
-
 Formatta il file come swap:
-
 ```bash
 mkswap /swapfile
 ```
-
 Attivalo:
-
 ```bash
 swapon /swapfile
 ```
-
 La priorità dello swap si imposta con:
-
 ```bash
 swapon --priority -2 /swapfile
 ```
-
 Puoi verificare:
-
 ```bash
 swapon --show
 ```
-
 Vedrai una colonna chiamata PRIO.  
 
-Il prossimo passo è rendere il file swap permanente (fstab).
-
+#### Il prossimo passo è rendere il file swap permanente (fstab).  
 Apri /etc/fstab:
-
 ```bash
 nano /etc/fstab
 ```
-
 Aggiungi questa riga:
-
 ```
 /swapfile none swap sw,nofail,pri=-2 0 0
 ```
-
 Salva e chiudi.  
+
 ## Metodo 2 (testato su Jolla C2): Creazione swapfile in /home/swap/  
-Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0
+Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0.  
 Accedi come root:
 ```bash
 devel-su
