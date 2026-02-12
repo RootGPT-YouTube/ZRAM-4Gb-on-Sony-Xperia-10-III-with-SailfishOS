@@ -164,12 +164,6 @@ Al suo interno incolliamo questo codice:
 ```bash
 [Unit]
 Description=Enable swap file on home
-# To create this:
-# - mkdir /home/swap
-# - chmod 0700 /home/swap
-# - dd if=/dev/zero of=/home/swap/swap0 bs=1M count=128
-# - chmod 0600 /home/swap/swap0
-# - mkswap -L home-swap0 /home/swap/swap0
 ConditionPathExists=/home/swap/swap0
 DefaultDependencies=false
 
