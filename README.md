@@ -66,10 +66,17 @@ Perché il ritardo di 10 secondi?
 SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
 
 Attivazione del servizio:  
+Ricaricare il demone:
 ```bash
 systemctl daemon-reload
-systemctl enable zram-override.service
+```
+Avvia il servizio:
+```bash
 systemctl start zram-override.service
+```
+Abilita il servizio
+```bash
+systemctl enable zram-override.service
 ```
 
 Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'accesso e digitare:
