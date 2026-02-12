@@ -1,3 +1,4 @@
+![Logo](images/logo.png)
 # [ITALIANO] Ottimizzazione di ZRAM (4Gb+Swappiness=20) su SailfishOS.
 
 ## Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
