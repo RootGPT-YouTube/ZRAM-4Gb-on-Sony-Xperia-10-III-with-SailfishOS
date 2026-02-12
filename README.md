@@ -131,6 +131,8 @@ Aggiungi questa riga:
 ```
 Salva e chiudi.  
 
+![Swapon: Metodo 1](images/swapon_Sony_Xperia_10III.jpeg)
+
 ## Metodo 2 [MILLE GRAZIE A NEPHROS] (testato su Jolla C2): Creazione swapfile in /home/swap/  
 Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0.  
 Accedi come root:
