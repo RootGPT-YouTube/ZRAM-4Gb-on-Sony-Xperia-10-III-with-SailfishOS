@@ -134,7 +134,7 @@ Salva e chiudi.
 Sotto, un esempio di `swapon --show` con procedura effettuata correttamente.
 ![Metodo 1](images/swapon_Sony_Xperia_10III.jpeg)
 
-## Metodo 2 [MILLE GRAZIE A NEPHROS] (testato su Jolla C2): Creazione swapfile in /home/swap/  
+## Metodo 2 [By NEPHROS] (testato su Jolla C2): Creazione swapfile in /home/swap/  
 Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0.  
 Accedi come root:
 ```bash
@@ -359,7 +359,7 @@ Save and exit.
 Below is an example of `swapon --show` after the procedure has been successfully completed.
 ![Metodo 1](images/swapon_Sony_Xperia_10III.jpeg)
 
-## Method 2 [VERY THANKS TO NEPHROS] (tested on Jolla C2): Creating a swapfile in /home/swap/  
+## Method 2 [By NEPHROS] (tested on Jolla C2): Creating a swapfile in /home/swap/  
 First, we create the swapfile in `/home/swap` and name it `swap0`.
 Log in as root:
 ```bash
