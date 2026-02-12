@@ -11,12 +11,10 @@ Entra come root:
 ```bash
 devel-su
 ```
-
 poi:
 ```bash
 nano /usr/local/sbin/zram4
 ```
-
 Contenuto consigliato:  
 ```bash
 #!/bin/sh
@@ -26,7 +24,7 @@ swapoff /dev/zram0 2>/dev/null
 echo 1 > /sys/block/zram0/reset
 # Imposta algoritmo di compressione (trascurabile)
 echo lz4 > /sys/block/zram0/comp_algorithm  
-# Imposta dimensione ZRAM (4 GB)
+# Imposta dimensione ZRAM (4GB, va dichiarato in bytes)
 echo 4294967296 > /sys/block/zram0/disksize
 # Ricrea lo swap
 mkswap /dev/zram0
@@ -35,17 +33,14 @@ swapon /dev/zram0 -p 5
 # Imposta swappiness finale
 sysctl -w vm.swappiness=20
 ```
-
 Rendi lo script eseguibile:  
 ```bash
 chmod +x /usr/local/sbin/zram4
 ```
-
 Creiamo il file del servizio:  
 ```bash
 nano /etc/systemd/system/zram-override.service
 ```
-
 Contenuto:  
 ```bash
 [Unit]
@@ -60,10 +55,9 @@ ExecStart=/usr/local/sbin/zram4
 [Install]
 WantedBy=multi-user.target
 ```
+Perché il ritardo di 10 secondi?  
 
-Perché il ritardo di 10 secondi?
-
-SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
+SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.  
 
 #### Attivazione del servizio  
 Ricaricare il demone:
@@ -78,13 +72,11 @@ Abilitare il servizio
 ```bash
 systemctl enable zram-override.service
 ```
-
 Riavviare lo smartphone, aspettare almeno 10 secondi dopo aver effettuato l'accesso e digitare:
-`swapon --show` o `zramctl` per verificare la presenza di ZRAM attivo con la giusta quantità di memoria (nel nostro caso 4Gb) e `cat /proc/sys/vm/swappiness` per verificare il corretto swappiness (nel nostro caso 20).
-
+`swapon --show` o `zramctl` per verificare la presenza di ZRAM attivo con la giusta quantità di memoria (nel nostro caso 4Gb) e `cat /proc/sys/vm/swappiness` per verificare il corretto swappiness (nel nostro caso 20).  
 Fine. Adesso lo smartphone avrà più ZRAM da usare e da usare meglio.
 
-### SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO 4GB DI RAM:  
+### AUTOINSTALLAZIONE MODULO DI 4GB DI ZRAM SOLO PER DISPOSITIVI SAILFISHOS CON ALMENO ALTRETTANTI GB DI RAM:  
 Entra come root:
 ```bash
 devel-su
@@ -96,7 +88,7 @@ curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-
   
 # EXTRA: aggiungere uno SWAPFILE con priorità inferiore a ZRAM.  
 
-## Metodo 1 (testato su Sony Xperia 10 III: Creazione swapfile da 1024MB in /  
+## Metodo 1 (testato su Sony Xperia 10 III): Creazione swapfile da 1024MB in /  
 Entra come root:
 ```bash
 devel-su
@@ -127,7 +119,7 @@ swapon --show
 ```
 Vedrai una colonna chiamata PRIO.  
 
-#### Il prossimo passo è rendere il file swap permanente (fstab).  
+#### Il prossimo passo sarà rendere il file swap permanente (fstab).  
 Apri /etc/fstab:
 ```bash
 nano /etc/fstab
