@@ -69,7 +69,7 @@ Avviare il servizio:
 ```bash
 systemctl start zram-override.service
 ```
-Abilitare il servizio
+Abilitare il servizio:
 ```bash
 systemctl enable zram-override.service
 ```
