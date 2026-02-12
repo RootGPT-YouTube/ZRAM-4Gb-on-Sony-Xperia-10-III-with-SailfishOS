@@ -222,7 +222,7 @@ swapfile = sicurezza e stabilità.
 
 Lavorano insieme: zram gestisce il carico leggero e veloce, lo swapfile protegge il sistema quando la RAM è completamente piena.  
 
-# [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on Sony Xperia 10 III with SailfishOS
+# [ENGLISH] ZRAM Optimization (4 GB + Swappiness=20) on SailfishOS
 
 ## Goal: optimize ZRAM on SailfishOS using a custom script and a systemd service.
 
