@@ -130,7 +130,7 @@ Aggiungi questa riga:
 ```
 Salva e chiudi.  
 
-## Metodo 2 (testato su Jolla C2): Creazione swapfile in /home/swap/  
+## Metodo 2 [MILLE GRAZIE A NEPHROS] (testato su Jolla C2): Creazione swapfile in /home/swap/  
 Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0.  
 Accedi come root:
 ```bash
@@ -225,7 +225,7 @@ It has been tested on the Sony Xperia 10 III running SailfishOS.
 Create the ZRAM script (4 GB ZRAM)
 We will create a script that sets up 4 GB of ZRAM, so we’ll call it zram4.
 
-Create the script in /usr/local/sbin/:  
+Create the script in `/usr/local/sbin/`:  
 Take the root access:
 ```bash
 devel-su
@@ -234,7 +234,6 @@ Then:
 ```bash
 nano /usr/local/sbin/zram4
 ```
-
 Recommended content:
 ```bash
 #!/bin/sh
@@ -261,7 +260,6 @@ Create the systemd service:
 ```bash
 nano /etc/systemd/system/zram-override.service
 ```
-
 Content:  
 ```bash
 [Unit]
@@ -278,7 +276,7 @@ WantedBy=multi-user.target
 ```
 Why the 10‑second delay?
 SailfishOS and the Android layer (droid-hal) initialize ZRAM very early during boot.
-The delay ensures that our script overrides the final values, avoiding conflicts.
+The delay ensures that our script overrides the final values, avoiding conflicts.  
 
 Enable the service:  
 ```bash
@@ -286,7 +284,7 @@ systemctl daemon-reload
 systemctl enable zram-override.service
 systemctl start zram-override.service
 ```
-After rebooting the phone, wait at least 10 seconds after logging in, then run: `swapon --show` or `zramctl`. So you can check active ZRAM and size (4 GB in this example).
+After rebooting the phone, wait at least 10 seconds after logging in, then run: `swapon --show` or `zramctl`. So you can check active ZRAM and size (4 GB in this example).  
   
 Now, check swappiness (should be 20):  
 ```bash
@@ -306,69 +304,126 @@ curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-
 ```
 
 # EXTRA: add a SWAPFILE with lower priority than ZRAM.
-
-## Create a 1024 MB swapfile
+## Method 1 (tested on Sony Xperia 10 III): Creating a 1024 MB swapfile in /
+Create a 1024 MB swapfile
 Become root:
-
 ```bash
 devel-su
 ```
-
 Create a 1 GB file:
-
 ```bash
 fallocate -l 1024M /swapfile
 ```
-
 Set the correct permissions:
-
 ```bash
 chmod 600 /swapfile
 ```
-
 Format the file as swap:
-
 ```bash
 mkswap /swapfile
 ```
-
 Activate it:
-
 ```bash
 swapon /swapfile
 ```
-
-## Set the priority to -2
-
+Set the priority to -2  
 Swap priority is set with:
-
 ```bash
 swapon --priority -2 /swapfile
 ```
-
 You can verify it with:
-
 ```bash
 swapon --show
 ```
+You will see a column called PRIO.  
 
-You will see a column called PRIO.
-
-## Make it permanent (fstab)
-
-Open /etc/fstab:
-
+Make it permanent (fstab)
+Open `/etc/fstab`:
 ```bash
 nano /etc/fstab
 ```
-
 Add this line:
 
-```
+```bash
 /swapfile none swap sw,nofail,pri=-2 0 0
 ```
-
 Save and exit.
+
+## Method 2 [VERY THANKS TO NEPHROS] (tested on Jolla C2): Creating a swapfile in /home/swap/  
+First, we create the swapfile in `/home/swap` and name it `swap0`.
+Log in as root:
+```bash
+devel-su
+```
+Create the directory for the swapfile:
+```bash
+mkdir -p /home/swap
+```
+Set the correct permissions on the directory:
+```bash
+chmod 0700 /home/swap
+```
+Create the swapfile:
+```bash
+fallocate -l 1024M /home/swap/swap0
+```
+Set the correct permissions on the swapfile:
+```bash
+chmod 0600 /home/swap/swap0
+```
+Prepare the file so the kernel recognizes it as swap, and label it for convenience as `home-swap0`:
+```bash
+mkswap -L home-swap0 /home/swap/swap0
+```
+Now create the systemd service:
+```bash
+nano /usr/lib/systemd/system/home-swap-swap0.swap
+```
+Paste the following code inside:
+```bash
+[Unit]
+Description=Enable swap file on home
+ConditionPathExists=/home/swap/swap0
+DefaultDependencies=false
+
+Conflicts=shutdown.target
+
+Conflicts=umount.target
+Before=umount.target
+
+After=local-fs.target init-done.service
+Requires=local-fs.target
+
+After=home.mount
+Requires=home.mount
+
+PartOf=swap.target
+
+[Swap]
+What=/home/swap/swap0
+Options=nofail
+Priority=-2
+
+[Install]
+WantedBy=multi-user.target
+```
+At this point, you just need to reload the daemon, start the service (optional but recommended), and enable it so it starts automatically at boot.  
+Reload the daemon:
+```bash
+systemctl daemon-reload
+```
+Start the service:
+```bash
+systemctl start home-swap-swap0.swap
+```
+Enable the service:
+```bash
+systemctl enable home-swap-swap0.swap
+```
+You can check whether everything worked correctly by typing:
+```bash
+swapon --show
+```
 
 ## Why it’s useful to have both zram and a swapfile?
 
