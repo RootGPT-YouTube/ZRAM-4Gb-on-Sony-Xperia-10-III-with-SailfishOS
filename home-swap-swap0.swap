@@ -1,0 +1,25 @@
+[Unit]
+Description=Enable swap file on home
+ConditionPathExists=/home/swap/swap0
+DefaultDependencies=false
+
+Conflicts=shutdown.target
+
+Conflicts=umount.target
+Before=umount.target
+
+After=local-fs.target init-done.service
+Requires=local-fs.target
+
+After=home.mount
+Requires=home.mount
+
+PartOf=swap.target
+
+[Swap]
+What=/home/swap/swap0
+Options=nofail
+Priority=-2
+
+[Install]
+WantedBy=multi-user.target
