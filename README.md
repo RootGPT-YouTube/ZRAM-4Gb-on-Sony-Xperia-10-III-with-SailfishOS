@@ -3,7 +3,7 @@
 ## Obiettivo: ottimizzare ZRAM su SailfishOS con script personalizzato e servizio systemd.
 
 ### Questa guida mostra come creare uno script per riconfigurare ZRAM (dimensione, algoritmo di compressione, priorità dello swap) e come renderlo automatico tramite un servizio systemd.  
-È stata testata su Sony Xperia 10 III con SailfishOS.  
+È stata testata su Sony Xperia 10 III con SailfishOS e Jolla C2.  
 
 Creazione dello script ZRAM che genererà 4Gb di ZRAM, lo chiameremo perciò zram4.  
 Creiamo lo script in /usr/local/sbin/:  
@@ -96,7 +96,7 @@ curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-
   
 # EXTRA: aggiungere uno SWAPFILE con priorità inferiore a ZRAM.  
 
-## Metodo 1: Creazione swapfile da 1024MB in /  
+## Metodo 1 (testato su Sony Xperia 10 III: Creazione swapfile da 1024MB in /  
 Entra come root:
 
 ```bash
@@ -155,8 +155,8 @@ Aggiungi questa riga:
 /swapfile none swap sw,nofail,pri=-2 0 0
 ```
 
-Salva e chiudi.
-## Metodo 2: Creazione swapfile in /home/swap/  
+Salva e chiudi.  
+## Metodo 2 (testato su Jolla C2): Creazione swapfile in /home/swap/  
 Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0
 Accedi come root:
 ```bash
