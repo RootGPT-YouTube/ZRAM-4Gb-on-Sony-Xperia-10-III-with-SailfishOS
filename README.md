@@ -65,7 +65,7 @@ Perché il ritardo di 10 secondi?
 
 SailfishOS e il layer Android (droid-hal) inizializzano ZRAM molto presto. Il ritardo garantisce che il nostro script sovrascriva i valori finali, evitando conflitti.
 
-Attivazione del servizio:  
+#### Attivazione del servizio  
 Ricaricare il demone:
 ```bash
 systemctl daemon-reload
