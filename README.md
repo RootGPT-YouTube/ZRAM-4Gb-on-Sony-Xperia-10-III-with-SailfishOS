@@ -89,7 +89,7 @@ curl -fsSL --retry 3 https://raw.githubusercontent.com/RootGPT-YouTube/ZRAM-4Gb-
   
 # EXTRA: aggiungere uno SWAPFILE con priorità inferiore a ZRAM.  
 
-## Creare uno swapfile da 1024 MB  
+## Metodo 1: Creazione swapfile da 1024MB in /  
 Entra come root:
 
 ```bash
@@ -120,8 +120,6 @@ Attivalo:
 swapon /swapfile
 ```
 
-## Impostare la priorità a -2
-
 La priorità dello swap si imposta con:
 
 ```bash
@@ -134,9 +132,9 @@ Puoi verificare:
 swapon --show
 ```
 
-Vedrai una colonna chiamata PRIO.
+Vedrai una colonna chiamata PRIO.  
 
-## Renderlo permanente (fstab)
+Il prossimo passo è rendere il file swap permanente (fstab).
 
 Apri /etc/fstab:
 
@@ -151,7 +149,87 @@ Aggiungi questa riga:
 ```
 
 Salva e chiudi.
+## Metodo 2: Creazione swapfile in /home/swap/  
+Prima di tutto creiamo lo swapfile in /home/swap e lo chiamiamo swap0
+Accedi come root:
+```bash
+devel-su
+```
+Creiamo la cartella per lo swapfile:
+```bash
+mkdir -p /home/swap
+```
+Diamo i giusti permessi alla cartella:
+```bash
+chmod 0700 /home/swap
+```
+Creiamo lo swapfile:
+```bash
+fallocate -l 1024M /home/swap/swap0
+```
+Diamo i giusti permessi allo swapfile:
+```bash
+chmod 0600 /home/swap/swap0
+```
+Prepariamo il file affinché il kernel lo riconosca come swap ed etichettiamolo per comodità come home-swap0:
+```bash
+mkswap -L home-swap0 /home/swap/swap0
+```
+Adesso creiamo il servizio systemd:
+```bash
+nano /usr/lib/systemd/system/home-swap-swap0.swap
+```
+Al suo interno incolliamo questo codice:
+```bash
+[Unit]
+Description=Enable swap file on home
+# To create this:
+# - mkdir /home/swap
+# - chmod 0700 /home/swap
+# - dd if=/dev/zero of=/home/swap/swap0 bs=1M count=128
+# - chmod 0600 /home/swap/swap0
+# - mkswap -L home-swap0 /home/swap/swap0
+ConditionPathExists=/home/swap/swap0
+DefaultDependencies=false
 
+Conflicts=shutdown.target
+
+Conflicts=umount.target
+Before=umount.target
+
+After=local-fs.target init-done.service
+Requires=local-fs.target
+
+After=home.mount
+Requires=home.mount
+
+PartOf=swap.target
+
+[Swap]
+What=/home/swap/swap0
+Options=nofail
+Priority=-2
+
+[Install]
+WantedBy=multi-user.target
+```
+A questo punto rimane da ricaricare il demone, avviare il servizio (opzionale, ma consigliato) e abilitare il servizio in modo che si avvii in automatico ad ogni avvio.  
+Ricarica il demone:
+```bash
+systemctl daemon-reload
+```
+Avvia il servizio:
+```bash
+systemctl start home-swap-swap0.swap
+```
+Abilita il servizio:
+```bash
+systemctl enable home-swap-swap0.swap
+```
+Si può controllare se è andato tutto a buon fine digitando:
+```bash
+swapon --show
+```
 ## Perché è utile avere sia zram che uno swapfile?  
 - zram comprime la RAM e la usa come “RAM aggiuntiva veloce”, ottima per evitare rallentamenti.  
 - lo swapfile entra in gioco solo quando serve davvero, offrendo spazio di emergenza che evita crash, OOM‑killer e chiusure forzate delle app.  
