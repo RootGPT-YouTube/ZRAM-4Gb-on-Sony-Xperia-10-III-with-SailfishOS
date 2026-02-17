@@ -162,7 +162,7 @@ mkswap -L home-swap0 /home/swap/swap0
 ```
 Adesso creiamo il servizio systemd:
 ```bash
-nano /usr/lib/systemd/system/home-swap-swap0.swap
+nano /etc/systemd/system/home-swap-swap0.swap
 ```
 Al suo interno incolliamo questo codice:
 ```bash
@@ -387,7 +387,7 @@ mkswap -L home-swap0 /home/swap/swap0
 ```
 Now create the systemd service:
 ```bash
-nano /usr/lib/systemd/system/home-swap-swap0.swap
+nano /etc/systemd/system/home-swap-swap0.swap
 ```
 Paste the following code inside:
 ```bash
